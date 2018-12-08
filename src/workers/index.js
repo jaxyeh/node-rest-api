@@ -13,3 +13,4 @@ emailQueue.process(async (job, done) => {
 })
 
 console.log('Worker Initialized')
+console.log(`Email Host: ${config.nodemailer.host}`)

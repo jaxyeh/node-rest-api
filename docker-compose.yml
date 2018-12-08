@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 
 services:
   node-rest-api:
@@ -34,6 +34,9 @@ services:
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://node-rest-api-cache
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
     command: yarn run worker
     depends_on:
       - redis
