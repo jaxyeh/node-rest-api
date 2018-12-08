@@ -1,11 +1,15 @@
+const config = require('../../config')
+
 const { pick } = require('lodash')
 const Boom = require('boom')
 const Joi = require('joi')
 
 const User = require('../models/User')
-const { expired } = require('../utils/date')
+const { confirmationExpired } = require('../utils/mailer')
 const { createHash, verifyHash, generateToken, generateJWTforUserModel } = require('../utils/auth')
-const { sendMessage } = require('../utils/mailer')
+
+const Queue = require('bull')
+const emailQueue = new Queue('sendEmail', config.redis)
 
 const validate = (ctx, schema) => {
   const { error, value } = Joi.validate(ctx.request.body, schema)
@@ -29,6 +33,7 @@ module.exports.get = async (ctx) => {
 }
 
 module.exports.create = async (ctx) => {
+  // TODO: Consider Joi to validate Password
   // const opts = { abortEarly: false, context: { validatePassword: true } }
   const userModel = validate(ctx, User.SchemaCreate)
 
@@ -42,13 +47,14 @@ module.exports.create = async (ctx) => {
   const user = await User.query().insert(userModel)
 
   // TODO: Send Email Confirmation
+  const confirmationLink = `http://localhost:${config.port}/api/v1/user/confirm/${userModel.confirmationToken}`
   const message = {
     to: user.email,
     subject: 'User Confirmation',
-    text: 'Hello to myself!',
-    html: `<p><b>Hello</b> to myself</p>`
+    text: `Hi ${user.fullName()}, please go to this url address to complete your user registeration: ${confirmationLink}.`,
+    html: `<p>Hi ${user.fullName()},</p><p>Please click <a href="${confirmationLink}">here</a> to confirm user registeration.</p>`
   }
-  await sendMessage(message)
+  emailQueue.add({ message })
 
   ctx.body = stripData(user)
   ctx.status = 200
@@ -58,7 +64,7 @@ module.exports.confirm = async (ctx) => {
   const { token } = ctx.params
   const user = await User.query().where('confirmation_token', token).first().throwIfNotFound()
 
-  if (!user.confirmedSentAt || expired(user.confirmedSentAt)) {
+  if (!user.confirmedSentAt || confirmationExpired(user.confirmedSentAt)) {
     // The confirmation token has expired!
     ctx.throw(Boom.badData('Confirmation has expired!'))
   }
@@ -90,7 +96,7 @@ module.exports.login = async (ctx) => {
     ctx.throw(Boom.unauthorized('User and Email does not match!'))
   }
 
-  // Check if user is confirmed
+  // Check if user has confirmed
   if (!user.confirmedAt) {
     ctx.throw(Boom.unauthorized('User has not yet confirmed!'))
   }

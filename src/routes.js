@@ -13,8 +13,8 @@ router.get('/ping', mainController.check)
 const apiRouter = new Router({ prefix: '/v1' })
 apiRouter.get('/user', authRequired, userController.get)
 apiRouter.get('/user/confirm/:token', userController.confirm)
-apiRouter.post('/user', userController.create)
-apiRouter.post('/user/login', userController.login)
+apiRouter.post('/user/register', userController.create)
+apiRouter.post('/user/authenticate', userController.login)
 
 // Merge Routers
 router.use('/api', apiRouter.routes())

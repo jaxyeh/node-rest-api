@@ -1,17 +1,35 @@
 const path = require('path')
+require('dotenv').config({ silent: true, path: path.join(__dirname, '..', '.env') })
 
-const { DATABASE_URL } = process.env
+const {
+  PGHOST,
+  PGPORT,
+  PGUSER,
+  PGPASSWORD,
+  PGDATABASE,
+  DATABASE_URL
+} = process.env
 
 const standardOptions = {
   client: 'pg',
-  connection: DATABASE_URL || 'postgresql://localhost:5432/api-dev',
+  connection: {
+    host: PGHOST || 'localhost',
+    port: PGPORT || 5432,
+    user: PGUSER || 'postgres',
+    password: PGPASSWORD || undefined,
+    database: PGDATABASE || 'api-dev'
+  },
   migrations: {
     directory: path.join(__dirname, '../src/db/migrations'),
     tableName: 'knex_migrations'
   },
   seeds: {
     directory: path.join(__dirname, '../src/db/seeds')
-  },
+  }
+}
+
+if (DATABASE_URL) {
+  standardOptions.connection = DATABASE_URL
 }
 
 module.exports = {
@@ -20,12 +38,15 @@ module.exports = {
   }),
 
   test: Object.assign({}, standardOptions, {
-    connection: DATABASE_URL || 'postgresql://localhost:5432/api-test',
-    // debug: true
+    connection: {
+      database: 'api-test'
+    }
   }),
 
   production: Object.assign({}, standardOptions, {
-    connection: DATABASE_URL,
+    connection: {
+      database: 'api-db'
+    },
     ssl: true,
     seeds: {
       directory: path.join(__dirname, '../src/db/seeds/prod')

@@ -4,6 +4,8 @@
   "description": "Starter for REST API",
   "main": "server.js",
   "scripts": {
+    "server:init": "yarn run db:setup && yarn run db:latest && yarn start",
+    "db:setup": "node src/db/create",
     "db:make": "knex migrate:make --knexfile config/knexfile.js",
     "db:latest": "knex migrate:latest --knexfile config/knexfile.js",
     "db:rollback": "knex migrate:rollback --knexfile config/knexfile.js",
@@ -14,8 +16,9 @@
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js",
     "test": "jest --forceExit --verbose",
-    "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage"
+    "test:watch": "yarn run test -- --watch",
+    "test:coverage": "yarn run test -- --coverage",
+    "worker": "node src/workers"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
   ],
   "author": "Jason Yeh <jason@yehs.us>",
   "license": "MIT",
+  "private": false,
   "bugs": {
     "url": "https://github.com/jaxyeh/node-rest-api/issues"
   },
@@ -49,6 +53,7 @@
     "@koa/cors": "2",
     "@phc/argon2": "^1.0.9",
     "boom": "^7.3.0",
+    "bull": "^3.5.2",
     "date-fns": "^1.29.0",
     "dotenv": "^6.2.0",
     "joi": "^14.3.0",
