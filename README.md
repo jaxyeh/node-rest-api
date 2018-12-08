@@ -17,6 +17,7 @@ A boilerplate of RESTful API server that provides ability to Register, Login, an
 - [JWT-based Authentication](https://jwt.io/) - JSON Web Tokens authentication
 - [NodeMailer](https://nodemailer.com/about/) - A email client library for Node.js
 - [UPASH](https://github.com/simonepri/upash) Unified API for PASsword Hashing algorithms
+- [Docker](https://www.docker.com/) - This app supports bundling into Docker containerization
 
 <p align="center">
   <sub>
