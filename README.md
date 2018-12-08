@@ -30,6 +30,7 @@ A boilerplate of RESTful API server that provides ability to Register, Login, an
 * Node.JS 10+ LTS
 * PostgreSQL 9 or higher (or available via Docker container)
 * Yarn
+* Docker (optional)
 
 Make sure you have postgreSQL Database configured
 
@@ -61,28 +62,21 @@ yarn run server:init
 The API is available at [http://localhost:3000](http://localhost:3000).
 
 ## Running with Docker
-
-1. Setup Environment
-
 Write up SMTP configuration setup to the `.env` file on root of the directory:
-
 ```bash
 SMTP_HOST=smtp.mailgun.org
 SMTP_USER=postmaster@XXXXXXXXXXX.mailgun.org
 SMTP_PASS=XXXXXXXXXXX
 ```
-
-2. Start up the docker composer
-
+Start up the Docker composer
 ```
   docker-compose up (compose and run, it also creates the redis and postgres database)
 
   docker-compose down (Destroy application and postgres containers)
 ```
-
-3. Open up browser
+Open up browser
 
 * [http://localhost:8080](http://localhost:8080) - A client-side Web Application
 * [http://localhost:3000](http://localhost:3000) - A server-side API Server
 
-# Notes
+# Design Notes
