@@ -1,5 +1,6 @@
 # Node.js Authentication API Server boilerplate
-A boilerplate of RESTful API server that provides the ability to Register, Login, and lookup user profile. It enables uses of JWT-based for authentication and verification.
+A boilerplate of RESTful API server that provides abilities to register, login, and look-up user profile. It enables uses of JWT-based for user authentication and verification. The sample of client-side application that interacts with this API can be found at [node-rest-client](https://github.com/jaxyeh/node-rest-client) repository.
+
 <p align="center">
   <img src="node-rest-api_cli.png" alt="cli" width="500"/>
 </p>
@@ -11,10 +12,10 @@ A boilerplate of RESTful API server that provides the ability to Register, Login
 - [ObjectModel](http://objectmodel.js.org/) - A delightful JS testing framework
 - [Joi](https://github.com/hapijs/joi) - A validator library for JavaScript objects
 - [Bull](https://github.com/OptimalBits/bull) - A background job queue for Node.js
-- [Jest](https://facebook.github.io/jest/) - don't let tests get in your way
+- [Jest](https://facebook.github.io/jest/) - Just don't let tests get in your way
 - [supertest](https://github.com/visionmedia/supertest) - HTTP integration assertions tests
 - [eslint](https://eslint.org/) - The pluggable linting utility for JavaScript
-- [standardjs](https://standardjs.com/) - just don't worry about formatting rules
+- [standardjs](https://standardjs.com/) - An opinionated JavaScirpt style guide
 - [JWT-based Authentication](https://jwt.io/) - JSON Web Tokens authentication
 - [NodeMailer](https://nodemailer.com/about/) - A email client library for Node.js
 - [UPASH](https://github.com/simonepri/upash) Unified API for PASsword Hashing algorithms
@@ -26,6 +27,23 @@ A boilerplate of RESTful API server that provides the ability to Register, Login
   </sub>
 </p>
 
+## Quick Start with Docker
+
+In order to be able to send outgoing emails, you will need to configure the SMTP setup to the `.env` file on root of the directory:
+
+```bash
+SMTP_HOST=smtp.mailgun.org
+SMTP_USER=postmaster@XXXXXXXXXXX.mailgun.org
+SMTP_PASS=XXXXXXXXXXX
+```
+
+Build and run using Docker Compose:
+```
+$ docker-compose up
+```
+
+This Docker builds will load containers including Server API, [Client App](https://github.com/jaxyeh/node-rest-client), Queue Worker, PostgreSQL DB, and Redis. The client app can be found at [http://localhost:8080](http://localhost:8080), the Server API is served at port `3000`.
+
 ## Prerequiesis
 
 * Node.JS 10+ LTS
@@ -33,16 +51,19 @@ A boilerplate of RESTful API server that provides the ability to Register, Login
 * Redis
 * Yarn
 * Docker (optional)
-* A SMTP Server Connection Details to send out emails
+* A SMTP Server details to send outgoing emails
 
-Make sure you have postgreSQL Database configured
-
-## Getting Started
+## Usage
 Firstly, you need to install this package.
+
 ```bash
-yarn
+$ yarn
 ```
+
+> Note: You can replace `yarn` with `npm` command, both will work the same.
+
 Add some configuration setup via `.env` file:
+
 ```bash
 SMTP_HOST=smtp.mailgun.org
 SMTP_USER=postmaster@XXXXXXXXXXX.mailgun.org
@@ -53,35 +74,24 @@ PGUSER=postgres
 PGPASSWORD=XXXXXX
 PGDATABASE=api-dev
 ```
-Make sure you don't forget create database (default to `api-dev`) into PostgreSQL DB.
+
+Finally, run the Server API:
+
 ```bash
-yarn start
+$ yarn start
 ```
-Or, you can run the script to create database and migrate automatically.
+
+or, in developer mode with autoreload (`nodemon`):
 ```bash
-yarn run server:init
+$ yarn run dev
 ```
 
-The API is available at [http://localhost:3000](http://localhost:3000).
+>  Note: Please make sure you don't forget create database (it's currently default to `api-dev`) before you start, or alternatively to use this script to create and migrate database automatically:
+>  ```bash
+>  $ yarn run server:init
+>  ```
 
-## Running with Docker
-Write up SMTP configuration setup to the `.env` file on root of the directory:
-```bash
-SMTP_HOST=smtp.mailgun.org
-SMTP_USER=postmaster@XXXXXXXXXXX.mailgun.org
-SMTP_PASS=XXXXXXXXXXX
-```
-Start up the Docker composer
-```
-  docker-compose up (compose and run, it also creates the redis and postgres database)
-
-  docker-compose down (Destroy application and postgres containers)
-```
-Open up browser
-
-* [http://localhost:8080](http://localhost:8080) - A client-side Web Application
-* [http://localhost:3000](http://localhost:3000) - A server-side API Server
-
+The API is served at [http://localhost:3000/api/v1](http://localhost:3000/api/v1), please see the API documentation below for details.
 
 ## Database Administration
 This application also includes migrations tools to allow for you to define sets of schema changes so upgrading a database is a breeze. Here are the collection of user commands you can use to build, update, or rollback the database migration scripts:
@@ -107,12 +117,12 @@ This application also includes migrations tools to allow for you to define sets 
 ## API Documentation
 Here are the high-level API documentation:
 
-* `/boom` - **KABOOOMMMM!**
-* `/ping` - Receives health status and the datetime
-* `/api/v1/user` [GET] [AUTH] - Retrieve user profile
-* `/api/v1/user/confirm/{:token}` [GET] - Email Confirmation from email notification
-* `/api/v1/user/register` [POST] - User Registeration
-* `/api/v1/user/authenticate` [POST] - User Login
+* [__GET__] `/boom` - **KABOOOMMMM!**
+* [__GET__] `/ping` - Receives health status and the datetime
+* [__GET__] `/api/v1/user` [**AUTH**] - Retrieve user profile
+* [__GET__] `/api/v1/user/confirm/{:token}` - Email Confirmation from email notification
+* [__POST__] `/api/v1/user/register` - User Registeration
+* [__POST__] `/api/v1/user/authenticate` - User Login
 
 ## Design Notes
 
@@ -137,6 +147,9 @@ Node.JS is perfect for IO-heavy application, Data-intensive real-time Apps, API-
 - The code coverage is shallow, we should continue to add more unit and integration tests to improve code assurance. Consider integration with  [Coveralls]](https://coveralls.io/) or [Codecov](https://codecov.io/) for visual code coverages and Continuous Integration (CI) service.
 - If we increase services and data modules, we can move up `src/routes.js` into a separate `routes` folder with a collection of multiple routing files. So goes the same for the service `workers/` folder.
 
-# License
+## Styleguide
+[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+## License
 
   MIT
