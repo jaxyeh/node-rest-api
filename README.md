@@ -30,8 +30,10 @@ A boilerplate of RESTful API server that provides the ability to Register, Login
 
 * Node.JS 10+ LTS
 * PostgreSQL 9 or higher (or available via Docker container)
+* Redis
 * Yarn
 * Docker (optional)
+* A SMTP Server Connection Details to send out emails
 
 Make sure you have postgreSQL Database configured
 
