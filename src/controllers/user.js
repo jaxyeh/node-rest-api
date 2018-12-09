@@ -76,11 +76,13 @@ module.exports.confirm = async (ctx) => {
   }
   await User.query().patch(data).where('confirmation_token', token)
 
-  ctx.body = {
-    statusCode: 200,
-    message: 'user confirmed'
-  }
-  ctx.status = 200
+  // As of a temporary solution, it'll just redirect user to Login page
+  ctx.redirect('http://localhost:8080/login')
+  // ctx.body = {
+  //   statusCode: 200,
+  //   message: 'user confirmed'
+  // }
+  // ctx.status = 200
 }
 
 module.exports.login = async (ctx) => {

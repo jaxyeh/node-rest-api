@@ -102,6 +102,16 @@ This application also includes migrations tools to allow for you to define sets 
 * `yarn run test:watch` - Runs a fast interactive `watcher mode` that runs only test files related to changed files.
 * `yarn run test:coverage` - Run this command gets you a full code coverage report, open the HTML report file (`./coverage/lcov-report/index.html`) for the extensive "visual" code coverage report.
 
+## API Documentation
+Here are the high-level API documentation:
+
+* `/boom` - **KABOOOMMMM!**
+* `/ping` - Receives health status and the datetime
+* `/api/v1/user` [GET] [AUTH] - Retrieve user profile
+* `/api/v1/user/confirm/{:token}` [GET] - Email Confirmation from email notification
+* `/api/v1/user/register` [POST] - User Registeration
+* `/api/v1/user/authenticate` [POST] - User Login
+
 ## Design Notes
 
 ### Why not using TypeScript? or ES6 Module?
