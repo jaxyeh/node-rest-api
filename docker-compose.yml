@@ -21,7 +21,7 @@ services:
       - redis
 
   node-rest-client:
-    build: ../node-rest-client
+    build: https://github.com/jaxyeh/node-rest-client.git
     container_name: node-rest-client
     environment:
       - NODE_ENV=production
