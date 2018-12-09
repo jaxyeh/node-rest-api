@@ -32,22 +32,23 @@ describe('User API Integration Tests', () => {
     })
   })
 
-  describe('Create User', () => {
-    it('<200> should always return with the API server information', async () => {
-      const res = await request(app.callback())
-        .post('/api/v1/user/register')
-        .send({
-          email: 'johndoe@example.com',
-          password: 'test',
-          firstName: 'John',
-          lastName: 'Doe'
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
+  // TODO: Continue to improve integraiton tests
+  // describe('Create User', () => {
+  //   it('<200> should always return with the API server information', async () => {
+  //     const res = await request(app.callback())
+  //       .post('/api/v1/user/register')
+  //       .send({
+  //         email: 'johndoe@example.com',
+  //         password: 'test',
+  //         firstName: 'John',
+  //         lastName: 'Doe'
+  //       })
+  //       .expect('Content-Type', /json/)
+  //       .expect(200)
 
-      console.log(res.body)
-      // const { healthy } = res.body
-      // expect(healthy).toBe(true)
-    })
-  })
+  //     console.log(res.body)
+  //     // const { healthy } = res.body
+  //     // expect(healthy).toBe(true)
+  //   })
+  // })
 })
