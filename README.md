@@ -124,3 +124,7 @@ Node.JS is perfect for IO-heavy application, Data-intensive real-time Apps, API-
 - Improve more integrated environment configuration in between `.env` environment file and `docker-composer.yml` file.
 - The code coverage is shallow, we should continue to add more unit and integration tests to improve code assurance. Consider integration with  [Coveralls]](https://coveralls.io/) or [Codecov](https://codecov.io/) for visual code coverages and Continuous Integration (CI) service.
 - If we increase services and data modules, we can move up `src/routes.js` into a separate `routes` folder with a collection of multiple routing files. So goes the same for the service `workers/` folder.
+
+# License
+
+  MIT

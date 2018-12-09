@@ -11,7 +11,7 @@
     "db:rollback": "knex migrate:rollback --knexfile config/knexfile.js",
     "db:seed:make": "knex seed:make --knexfile config/knexfile.js",
     "db:seed:run": "knex seed:run --knexfile config/knexfile.js",
-    "db:reset": "yarn run db-rollback && yarn run db-latest && yarn run db-seed-run",
+    "db:reset": "yarn run db:rollback && yarn run db:latest",
     "dev": "nodemon ./server",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js",
